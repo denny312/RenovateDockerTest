@@ -1,7 +1,8 @@
 {
   "hostRules": [
     {
-      "hostType": "docker.io",
+      "matchHost": "docker.io",
+      "enabled" : true,
       "authType" : "Basic",
       "registryUrls": ["281670075220.dkr.ecr.eu-central-1.amazonaws.com/testing-renovate:1.0.0"],
       "username": "AWS",
