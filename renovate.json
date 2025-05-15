@@ -1,4 +1,13 @@
 {
+  "extends": ["config:base"],
+    "packageRules": [
+      {
+        "matchDatasources": ["docker"],
+        "matchManagers": ["dockerfile"],
+        "updateTypes": ["minor", "patch"],
+        "automerge": true
+      }
+    ],
   "hostRules": [
     {
       "matchHost": "281670075220.dkr.ecr.eu-central-1.amazonaws.com/testing-renovate:1.0.0",
