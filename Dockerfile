@@ -1,5 +1,5 @@
 # Usa l'immagine ufficiale di NGINX
-FROM nginx:1.9.1
+FROM nginx:1.28.0
 
 # Copia il file index.html nella directory predefinita di NGINX
 COPY index.html /usr/share/nginx/html/index.html
