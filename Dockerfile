@@ -1,5 +1,5 @@
 # Usa l'immagine ufficiale di NGINX
-FROM ghcr.io/actions/actions-runner:2.323.0
+FROM 281670075220.dkr.ecr.eu-central-1.amazonaws.com/testing-renovate:latest
 
 # Copia il file index.html nella directory predefinita di NGINX
 COPY index.html /usr/share/nginx/html/index.html
