@@ -34,4 +34,4 @@ jobs:
         env:
           RENOVATE_REPOSITORIES: ${{ github.repository }}
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}  # o GITHUB_TOKEN se usi solo quello
+          token: ${{ secrets.RENOVATE_TOKEN }}  # o GITHUB_TOKEN se usi solo quello
