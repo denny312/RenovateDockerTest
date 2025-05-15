@@ -1,6 +1,5 @@
 # Usa l'immagine ufficiale di NGINX
-FROM 123456789012.dkr.ecr.eu-west-1.amazonaws.com/myimage:1.0.0
-
+FROM 281670075220.dkr.ecr.eu-central-1.amazonaws.com/testing-renovate:1.0.0
 # Copia il file index.html nella directory predefinita di NGINX
 COPY index.html /usr/share/nginx/html/index.html
 
