@@ -8,7 +8,7 @@ concurrency: renovate
 
 jobs:
   renovate:
-    name: Run Renovate with Dynamic ECR Token
+    name: Run Renovate with ECR OIDC
     runs-on: ubuntu-latest
 
     permissions:
@@ -30,9 +30,8 @@ jobs:
           aws-region: eu-central-1
 
       - name: Get ECR login password
-        id: get-ecr-token
         run: |
-          echo "RENOVATE_ECR_TOKEN=$(aws ecr get-login-password --region eu-central-1)" >> $GITHUB_ENV
+          echo "ECR_TOKEN=$(aws ecr get-login-password --region eu-central-1)" >> $GITHUB_ENV
 
       - name: Validate Renovate configuration
         run: jq type .github/renovate.json
@@ -40,12 +39,11 @@ jobs:
       - name: Run Renovate
         uses: renovatebot/github-action@v41.0.22
         env:
-          LOG_LEVEL: debug
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           RENOVATE_ONBOARDING: "false"
           RENOVATE_PLATFORM_COMMIT: "true"
-          LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
-          RENOVATE_TOKEN: ${{ env.RENOVATE_ECR_TOKEN }}
+          LOG_LEVEL: debug
+          ECR_TOKEN: ${{ env.ECR_TOKEN }}
         with:
           configurationFile: .github/renovate.json
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.RENOVATE_TOKEN }}
