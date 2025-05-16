@@ -44,8 +44,7 @@ jobs:
           RENOVATE_ONBOARDING: "false"
           RENOVATE_PLATFORM_COMMIT: "true"
           LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
-          RENOVATE_TOKEN: ${{ secrets.ACCESS_TOKEN }}  # GitHub token for PRs
-          ECR_TOKEN: ${{ env.RENOVATE_ECR_TOKEN }}     # passed to renovate.json
+          RENOVATE_TOKEN: ${{ env.RENOVATE_ECR_TOKEN }}
         with:
           configurationFile: .github/renovate.json
           token: ${{ secrets.ACCESS_TOKEN }}
