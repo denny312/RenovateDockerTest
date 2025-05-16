@@ -1,0 +1,55 @@
+name: Renovate
+
+on:
+  # Esegui al push sul branch main
+  push:
+
+  # Consenti esecuzione manuale
+  workflow_dispatch: {}
+
+concurrency: renovate
+
+jobs:
+  renovate:
+    name: Run Renovate
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      actions: write
+      id-token: write
+      pull-requests: write
+      issues: read
+      statuses: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::281670075220:role/Renovate-Dennis_DynamicToken
+          aws-region: eu-central-1
+
+      - name: Get ECR login password
+        id: ecr-auth
+        run: |
+          export ECR_TOKEN=$(aws ecr get-login-password --region eu-central-1)
+          echo "RENOVATE_TOKEN=$ECR_TOKEN" >> $GITHUB_ENV
+
+      - name: Validate Renovate configuration
+        run: jq type .github/renovate.json
+
+      - name: Run Renovate
+        uses: renovatebot/github-action@v41.0.22
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_ONBOARDING: "false"
+          RENOVATE_PLATFORM_COMMIT: "true"
+          LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
+          # Passa dinamicamente il token a hostRules tramite env var
+          RENOVATE_ECR_PASSWORD: ${{ env.RENOVATE_TOKEN }}
+        with:
+          configurationFile: .github/renovate.json
+          token: ${{ secrets.ACCESS_TOKEN }}  # oppure GITHUB_TOKEN
