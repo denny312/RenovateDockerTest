@@ -1,23 +1,33 @@
 {
-  "extends": ["config:base"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": [
+    "config:recommended"
+  ],
+
+  "enabledManagers": [
+    "dockerfile",
+    "github-actions"
+  ],
+
   "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["breaking"]
+    },
+
+    {
+      "matchCategories": ["docker"],
+      "enabled": true
+    },
+
     {
       "matchDatasources": ["docker"],
       "matchManagers": ["dockerfile"],
-      "updateTypes": ["minor", "patch"],
-      "automerge": true
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": false
     }
   ],
-  "docker": {
-    "enabled": true,
-    "registryUrls": ["281670075220.dkr.ecr.eu-central-1.amazonaws.com"]
-  },
-  "hostRules": [
-    {
-      "matchHost": "281670075220.dkr.ecr.eu-central-1.amazonaws.com",
-      "authType": "basic",
-      "username": "AWS",
-      "password": "{{env.ECR_TOKEN}}"
-    }
-  ]
+
+  "printConfig": true
 }
